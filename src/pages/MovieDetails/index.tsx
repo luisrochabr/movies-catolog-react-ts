@@ -1,15 +1,17 @@
 import React from 'react';
 import { useGetMovieByIdQuery } from '../../features/movies/movieAPI';
 import { Box, Container, Typography } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowBack } from '@mui/icons-material';
 import { IRates } from '../../features/movies/types/rates';
 import Rating from '../../components/Rating';
 import NoImage from '../../assets/no_data.png';
 import MovieDetailsLoader from '../../components/Loader/MovieDetailsLoader';
+import DataNotFound from '../../components/DataNotFound';
 
 const MovieDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data: movie, isLoading } = useGetMovieByIdQuery(id);
 
   if (isLoading) {
@@ -23,14 +25,17 @@ const MovieDetails = () => {
     (rating) => rating?.Source === 'Rotten Tomatoes',
   );
 
-  if (movie?.Response === 'False') return <div>No movie found</div>;
+  if (movie?.Response === 'False') return <DataNotFound />;
 
   return (
     <Container>
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
+          flexDirection: {
+            xs: 'column',
+            sm: 'row',
+          },
           width: '100%',
           height: '100%',
         }}
@@ -39,14 +44,18 @@ const MovieDetails = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            height: '100vh',
-            width: '60%',
+            height: {
+              xs: 'auto',
+              sm: '100vh',
+            },
+            width: {
+              xs: '100%',
+              sm: '60%',
+            },
           }}
         >
           <Box
-            onClick={() => {
-              window.history.back();
-            }}
+            onClick={() => navigate('/')}
             sx={{
               display: 'flex',
               flexDirection: 'row',
@@ -64,7 +73,7 @@ const MovieDetails = () => {
             }}
           >
             <Typography variant="body1" color={'#7B8C98'} sx={{ gap: '8px' }}>
-              {movie?.Runtime} • {movie?.Year}
+              {movie?.Runtime} • {movie?.Year} • {movie?.Rated}
             </Typography>
           </Box>
           <Box
@@ -134,10 +143,22 @@ const MovieDetails = () => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            marginTop: '120px',
-            paddingLeft: '20px',
-            height: '100vh',
-            width: '40%',
+            marginTop: {
+              xs: '20px',
+              sm: '120px',
+            },
+            paddingLeft: {
+              xs: '0px',
+              sm: '20px',
+            },
+            height: {
+              xs: 'auto',
+              sm: '100vh',
+            },
+            width: {
+              xs: '100%',
+              sm: '40%',
+            },
           }}
         >
           <img

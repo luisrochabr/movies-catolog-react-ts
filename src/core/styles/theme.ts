@@ -16,6 +16,13 @@ export const theme = createTheme({
     fontFamily: 'Roboto, sans-serif',
   },
   components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#000000',
+        },
+      },
+    },
     MuiPaginationItem: {
       styleOverrides: {
         root: {

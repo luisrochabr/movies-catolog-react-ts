@@ -2,7 +2,7 @@ import { Box, CircularProgress, Container } from '@mui/material';
 
 const Loader = () => {
   return (
-    <Container>
+    <Container sx={{ backgroundColor: '#00000' }}>
       <Box
         sx={{
           display: 'flex',
