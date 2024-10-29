@@ -18,16 +18,13 @@ describe('useDebounce', () => {
       },
     );
 
-    // Update the value and check that it hasn't changed immediately
     rerender({ value: 'updated' });
     expect(result.current).toBe('initial');
 
-    // Fast-forward time by 500ms
     act(() => {
       jest.advanceTimersByTime(500);
     });
 
-    // Now the debounced value should be updated
     expect(result.current).toBe('updated');
   });
 
@@ -41,23 +38,18 @@ describe('useDebounce', () => {
 
     rerender({ value: 'first update' });
 
-    // Fast-forward by 250ms (not enough to trigger the delay)
     act(() => {
       jest.advanceTimersByTime(250);
     });
 
-    // Value should not have updated yet
     expect(result.current).toBe('initial');
 
-    // Update the value again before the delay completes
     rerender({ value: 'second update' });
 
-    // Fast-forward another 500ms
     act(() => {
       jest.advanceTimersByTime(500);
     });
 
-    // Now the debounced value should be the latest update
     expect(result.current).toBe('second update');
   });
 });

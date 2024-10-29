@@ -5,12 +5,14 @@ const MovieDetailsLoader = () => {
   return (
     <Container>
       <Skeleton
+        data-testid="movie-details-skeleton"
         sx={{ bgcolor: 'grey.900', borderRadius: 4 }}
         variant="rectangular"
         width={'50%'}
         height={'100vh'}
       />
       <Skeleton
+        data-testid="movie-details-skeleton"
         sx={{ bgcolor: 'grey.900', borderRadius: 4 }}
         variant="rectangular"
         width={'50%'}
