@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Link } from '@mui/material';
-import { FavoriteBorderOutlined } from '@mui/icons-material';
+import { Box, Button, Link } from '@mui/material';
+import { Favorite, FavoriteBorderOutlined } from '@mui/icons-material';
 import { IMovie } from '../../features/movies/types/movie';
 import NoImage from '../../assets/no_data.png';
+import { useLocalStorage } from '../../core/hooks/useLocalStorage';
 
 interface MovieListItemProps {
   movie: IMovie;
@@ -11,12 +12,30 @@ interface MovieListItemProps {
 const MovieListItem = ({ movie }: MovieListItemProps) => {
   const [imageError, setImageError] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  const [isFavorite, setIsFavorite] = useLocalStorage<boolean>(
+    movie.imdbID,
+    false,
+  );
 
   return (
-    <Link
-      href={`/${movie.imdbID}`}
-      variant="body2"
-      sx={{ height: '100%', textDecoration: 'none', color: 'inherit' }}
+    <Box
+      key={movie.imdbID}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        backgroundImage: `url(${imageError ? NoImage : movie.Poster})`,
+        backgroundSize: `${imageError ? 'contain' : 'cover'}`,
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        borderRadius: 4,
+        cursor: 'pointer',
+        overflow: 'hidden',
+        width: '140px',
+        height: '198px',
+      }}
     >
       <img
         src={movie.Poster}
@@ -24,30 +43,20 @@ const MovieListItem = ({ movie }: MovieListItemProps) => {
         hidden
         onError={() => setImageError(true)}
       />
-      <Box
-        key={movie.imdbID}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          backgroundImage: `url(${imageError ? NoImage : movie.Poster})`,
-          backgroundSize: `${imageError ? 'contain' : 'cover'}`,
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          borderRadius: 4,
-          cursor: 'pointer',
-          overflow: 'hidden',
-          width: '150px',
-          height: '250px',
-        }}
-      >
-        {isHovered && (
+      {isHovered && (
+        <Box
+          sx={{
+            display: 'flex',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            width: '100%',
+            height: '100%',
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
               width: '100%',
               height: '100%',
             }}
@@ -55,58 +64,65 @@ const MovieListItem = ({ movie }: MovieListItemProps) => {
             <Box
               sx={{
                 display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                width: '100%',
-                height: '100%',
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
               }}
             >
-              <Box
+              <Button onClick={() => setIsFavorite(!isFavorite)}>
+                {isFavorite ? (
+                  <Favorite sx={{ color: 'red' }} />
+                ) : (
+                  <FavoriteBorderOutlined sx={{ color: 'white' }} />
+                )}
+              </Button>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', flex: 2 }}>
+              <Link
+                href={`/${movie.imdbID}`}
+                variant="body2"
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                  marginTop: 2,
-                  marginRight: 2,
-                }}
-              >
-                <FavoriteBorderOutlined sx={{ color: 'white' }} />
-              </Box>
-
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-end',
-                  color: 'white',
-                  padding: 2,
+                  height: '100%',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  flex: 2,
                 }}
               >
                 <Box
                   sx={{
-                    fontSize: 12,
-                    fontFamily: 'Roboto',
-                    fontWeight: 'bold',
-                    color: 'white',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    padding: 2,
+                    flexGrow: 1,
+                    height: '100%',
                   }}
                 >
-                  {movie.Title}
+                  <Box
+                    sx={{
+                      fontSize: 12,
+                      fontFamily: 'Roboto',
+                      fontWeight: 'bold',
+                      color: 'white',
+                    }}
+                  >
+                    {movie.Title}
+                  </Box>
+                  <Box
+                    sx={{
+                      fontSize: 12,
+                      fontFamily: 'Roboto',
+                      color: '#7B8C98',
+                    }}
+                  >
+                    {movie.Year}
+                  </Box>
                 </Box>
-                <Box
-                  sx={{
-                    fontSize: 12,
-                    fontFamily: 'Roboto',
-                    color: '#7B8C98',
-                  }}
-                >
-                  {movie.Year}
-                </Box>
-              </Box>
+              </Link>
             </Box>
           </Box>
-        )}
-      </Box>
-    </Link>
+        </Box>
+      )}
+    </Box>
   );
 };
 

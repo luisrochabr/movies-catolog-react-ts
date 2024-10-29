@@ -8,6 +8,7 @@ export interface SearchParams {
 }
 
 interface ListResponse<T> {
+  Response: string;
   Search: T[];
   totalResults: number;
 }

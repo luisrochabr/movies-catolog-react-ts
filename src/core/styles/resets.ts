@@ -7,6 +7,7 @@ const ResetStyles = createGlobalStyle`
    margin: 0;
    font-family: 'Playfair Display', serif;
    background-color:  #000000;
+   color: #ffffff;
  }
 
 

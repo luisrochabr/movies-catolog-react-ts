@@ -1,23 +1,30 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 import { ReactComponent as TomatoIcon } from '../../assets/tomato.svg';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Favorite, FavoriteBorderOutlined } from '@mui/icons-material';
 import {
   RatingContainer,
   RatingItem,
   AddToFavorites,
   RatingBadge,
 } from './styles';
+import { useLocalStorage } from '../../core/hooks/useLocalStorage';
 
-interface RatingComponentProps {
-  imdbRating: string | undefined;
-  rottenTomatoesRating: string | undefined;
+interface RatingProps {
+  imdbID?: string;
+  imdbRating?: string;
+  rottenTomatoesRating?: string;
 }
 
-const RatingComponent: React.FC<RatingComponentProps> = ({
+const Rating: React.FC<RatingProps> = ({
+  imdbID,
   imdbRating,
   rottenTomatoesRating,
 }) => {
+  const [isFavorite, setIsFavorite] = useLocalStorage<boolean>(
+    imdbID || '',
+    false,
+  );
   return (
     <RatingContainer>
       {imdbRating && (
@@ -47,7 +54,7 @@ const RatingComponent: React.FC<RatingComponentProps> = ({
       {rottenTomatoesRating && (
         <RatingItem>
           <RatingBadge bgColor="#F93A1E" textColor="#000">
-            <TomatoIcon />
+            <TomatoIcon data-testid="tomato-icon" />
           </RatingBadge>
           <Typography
             variant="body2"
@@ -63,8 +70,12 @@ const RatingComponent: React.FC<RatingComponentProps> = ({
         </RatingItem>
       )}
 
-      <AddToFavorites>
-        <FavoriteBorderIcon fontSize="small" />
+      <AddToFavorites onClick={() => setIsFavorite(!isFavorite)}>
+        {isFavorite ? (
+          <Favorite sx={{ color: 'red' }} />
+        ) : (
+          <FavoriteBorderOutlined sx={{ color: 'white' }} />
+        )}
         <Typography variant="body2" component="span">
           Add to favorites
         </Typography>
@@ -73,4 +84,4 @@ const RatingComponent: React.FC<RatingComponentProps> = ({
   );
 };
 
-export default RatingComponent;
+export default Rating;

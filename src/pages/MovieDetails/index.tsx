@@ -6,21 +6,27 @@ import { ArrowBack } from '@mui/icons-material';
 import { IRates } from '../../features/movies/types/rates';
 import Rating from '../../components/Rating';
 import NoImage from '../../assets/no_data.png';
+import MovieDetailsLoader from '../../components/Loader/MovieDetailsLoader';
 
 const MovieDetails = () => {
   const { id } = useParams();
-  const { data: movie, error, isLoading } = useGetMovieByIdQuery(id);
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: </div>;
-  if (!movie) return <div>No movie found</div>;
-  const imdbRating: IRates | undefined = movie.Ratings?.find(
+  const { data: movie, isLoading } = useGetMovieByIdQuery(id);
+
+  if (isLoading) {
+    return <MovieDetailsLoader />;
+  }
+
+  const imdbRating: IRates | undefined = movie?.Ratings?.find(
     (rating) => rating.Source === 'Internet Movie Database',
   );
-  const rottenTomatoesRating: IRates | undefined = movie.Ratings?.find(
+  const rottenTomatoesRating: IRates | undefined = movie?.Ratings?.find(
     (rating) => rating?.Source === 'Rotten Tomatoes',
   );
+
+  if (movie?.Response === 'False') return <div>No movie found</div>;
+
   return (
-    <Container sx={{ marginRight: '120px', marginLeft: '120px', padding: 0 }}>
+    <Container>
       <Box
         sx={{
           display: 'flex',
@@ -32,9 +38,9 @@ const MovieDetails = () => {
         <Box
           sx={{
             display: 'flex',
-            flex: 2,
             flexDirection: 'column',
             height: '100vh',
+            width: '60%',
           }}
         >
           <Box
@@ -58,7 +64,7 @@ const MovieDetails = () => {
             }}
           >
             <Typography variant="body1" color={'#7B8C98'} sx={{ gap: '8px' }}>
-              {movie.Runtime} • {movie.Year}
+              {movie?.Runtime} • {movie?.Year}
             </Typography>
           </Box>
           <Box
@@ -73,70 +79,70 @@ const MovieDetails = () => {
                 fontWeight: 'bold',
               }}
             >
-              {movie.Title}
+              {movie?.Title}
             </Typography>
           </Box>
-          <Box
-            sx={{ display: 'flex', flexDirection: 'row', marginTop: '20px' }}
-          >
-            <Rating
-              imdbRating={imdbRating?.Value}
-              rottenTomatoesRating={rottenTomatoesRating?.Value}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              marginTop: '20px',
-              gap: '8px',
-              marginRight: '4px',
-            }}
-          >
-            <Typography
-              variant="body1"
-              color={'#7B8C98'}
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+            <Box
               sx={{
-                fontSize: '16px',
-                fontFamily: 'Roboto',
-                fontWeight: '500',
+                display: 'flex',
+                flexDirection: 'row',
+                marginTop: '20px',
               }}
             >
-              Plot
-            </Typography>
-            <Typography
-              variant="body1"
-              color={'white'}
+              <Rating
+                imdbID={movie?.imdbID}
+                imdbRating={imdbRating?.Value}
+                rottenTomatoesRating={rottenTomatoesRating?.Value}
+              />
+            </Box>
+            <Box
               sx={{
-                fontSize: '16px',
-                fontFamily: 'Roboto',
-                fontWeight: '400',
+                display: 'flex',
+                flexDirection: 'column',
+                marginTop: '20px',
+                gap: '8px',
+                marginRight: '4px',
               }}
             >
-              {movie.Plot}
-            </Typography>
+              <Typography
+                variant="body1"
+                color={'#7B8C98'}
+                sx={{
+                  fontSize: '16px',
+                  fontFamily: 'Roboto',
+                  fontWeight: '500',
+                }}
+              >
+                Plot
+              </Typography>
+              <Typography
+                variant="body1"
+                color={'white'}
+                sx={{
+                  fontSize: '16px',
+                  fontFamily: 'Roboto',
+                  fontWeight: '400',
+                }}
+              >
+                {movie?.Plot}
+              </Typography>
+            </Box>
           </Box>
         </Box>
         <Box
           sx={{
             display: 'flex',
-            flex: 1,
             flexDirection: 'column',
-            justifyContent: 'center',
+            marginTop: '120px',
+            paddingLeft: '20px',
             height: '100vh',
+            width: '40%',
           }}
         >
-          {/* <Box
-            component="img"
-            sx={{
-              borderRadius: '8px',
-            }}
-            alt={movie.Title}
-            src={movie.Poster}
-          /> */}
           <img
-            src={movie.Poster}
-            alt={movie.Title}
+            src={movie?.Poster}
+            alt={movie?.Title}
             style={{ borderRadius: '8px' }}
             onError={(e) => (e.currentTarget.src = NoImage)}
           />

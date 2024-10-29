@@ -8,15 +8,25 @@ export const theme = createTheme({
     primary: {
       main: '#B0B0B0',
     },
+    secondary: {
+      main: '#ffffff',
+    },
   },
   typography: {
     fontFamily: 'Roboto, sans-serif',
   },
   components: {
+    MuiPaginationItem: {
+      styleOverrides: {
+        root: {
+          color: '#ffffff',
+        },
+      },
+    },
     MuiInputBase: {
       styleOverrides: {
         input: {
-          color: '##011016',
+          color: '#011016',
           fontSize: '12px',
           fontWeight: 400,
         },
