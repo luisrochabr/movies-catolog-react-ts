@@ -5,9 +5,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowBack } from '@mui/icons-material';
 import { IRates } from '../../features/movies/types/rates';
 import Rating from '../../components/Rating';
-import NoImage from '../../assets/no_data.png';
+
 import MovieDetailsLoader from '../../components/Loader/MovieDetailsLoader';
 import DataNotFound from '../../components/DataNotFound';
+import SubHeader from '../../components/MovieDetail/SubHeader';
+import Content from '../../components/MovieDetail/Content';
+import Poster from '../../components/MovieDetail/Poster';
+import ListInfo from '../../components/MovieDetail/ListInfo';
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -65,17 +69,11 @@ const MovieDetails = () => {
           >
             <ArrowBack sx={{ color: '#7B8C98' }} />
           </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              marginTop: '8px',
-            }}
-          >
-            <Typography variant="body1" color={'#7B8C98'} sx={{ gap: '8px' }}>
-              {movie?.Runtime} • {movie?.Year} • {movie?.Rated}
-            </Typography>
-          </Box>
+          <SubHeader
+            runtime={movie?.Runtime}
+            year={movie?.Year}
+            rated={movie?.Rated}
+          />
           <Box
             sx={{ display: 'flex', flexDirection: 'row', marginTop: '20px' }}
           >
@@ -92,82 +90,29 @@ const MovieDetails = () => {
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                marginTop: '20px',
-              }}
-            >
-              <Rating
-                imdbID={movie?.imdbID}
-                imdbRating={imdbRating?.Value}
-                rottenTomatoesRating={rottenTomatoesRating?.Value}
-              />
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                marginTop: '20px',
-                gap: '8px',
-                marginRight: '4px',
-              }}
-            >
-              <Typography
-                variant="body1"
-                color={'#7B8C98'}
-                sx={{
-                  fontSize: '16px',
-                  fontFamily: 'Roboto',
-                  fontWeight: '500',
-                }}
-              >
-                Plot
-              </Typography>
-              <Typography
-                variant="body1"
-                color={'white'}
-                sx={{
-                  fontSize: '16px',
-                  fontFamily: 'Roboto',
-                  fontWeight: '400',
-                }}
-              >
-                {movie?.Plot}
-              </Typography>
+            <Rating
+              imdbID={movie?.imdbID}
+              imdbRating={imdbRating?.Value}
+              rottenTomatoesRating={rottenTomatoesRating?.Value}
+            />
+
+            {movie?.Plot && <Content plot={movie?.Plot} />}
+            <Box sx={{ display: 'flex', flexDirection: 'row', gap: '64px' }}>
+              {movie?.Actors && (
+                <ListInfo title="Cast" content={movie?.Actors} />
+              )}
+              {movie?.Genre && (
+                <ListInfo title="Genre" content={movie?.Genre} />
+              )}
+              {movie?.Director && (
+                <ListInfo title="Director" content={movie?.Director} />
+              )}
             </Box>
           </Box>
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            marginTop: {
-              xs: '20px',
-              sm: '120px',
-            },
-            paddingLeft: {
-              xs: '0px',
-              sm: '20px',
-            },
-            height: {
-              xs: 'auto',
-              sm: '100vh',
-            },
-            width: {
-              xs: '100%',
-              sm: '40%',
-            },
-          }}
-        >
-          <img
-            src={movie?.Poster}
-            alt={movie?.Title}
-            style={{ borderRadius: '8px' }}
-            onError={(e) => (e.currentTarget.src = NoImage)}
-          />
-        </Box>
+        {movie?.Poster && (
+          <Poster poster={movie?.Poster} title={movie?.Title} />
+        )}
       </Box>
     </Container>
   );

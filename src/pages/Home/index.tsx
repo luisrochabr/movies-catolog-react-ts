@@ -5,7 +5,7 @@ import useDebounce from '../../core/hooks/useDebounce';
 import { Search } from '@mui/icons-material';
 
 const Home = () => {
-  const [searchTerm, setSearchTerm] = useState<string>('tomato');
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const debouncedTerm = useDebounce<string>(searchTerm, 700);
 
   return (
