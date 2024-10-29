@@ -1,46 +1,68 @@
-# Getting Started with Create React App
+# **Catálogo de Filmes**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+![Node](https://img.shields.io/badge/Node-20.10-green?style=flat-square&logo=Node.js) ![React](https://img.shields.io/badge/React-18.0-06B6D4?style=flat-square&logo=React) ![Mui](https://img.shields.io/badge/MUI_CSS-6.1.5-blue?style=flat-square&logo=mui) ![License](https://img.shields.io/badge/license-MIT-green?style=flat-square) ![Version](https://img.shields.io/badge/version-1.0.0-black?style=flat-square)
 
-## Available Scripts
+**Descrição**
+O desafio foi desenvolver uma aplicação que permite listar informações de filmes e acessar os seus detalhes, da API [http://www.omdbapi.com/](http://www.omdbapi.com/). Este projeto utiliza Laravel como back-end, oferecendo uma API robusta, e Next.js como front-end, proporcionando uma experiência de usuário moderna e dinâmica.
 
-In the project directory, you can run:
+## 📑 **Índice**
 
-### `npm start`
+1. [Pré-requisitos](#pré-requisitos)
+2. [Instalação](#instalação)
+   - [Backend](#instalação-backend)
+   - [Frontend](#instalação-frontend)
+3. [Uso](#uso)
+4. [API](#api)
+5. [Contribuição](#contribuição)
+6. [Licença](#licença)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## ⚙️ **Pré-requisitos**
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Antes de iniciar, você precisará ter as seguintes ferramentas instaladas em sua máquina:
 
-### `npm test`
+- [Node.js](https://nodejs.org/en/)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠 **Instalação**
 
-### `npm run build`
+1. Clone o repositório:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```bash
+   git clone https://github.com/luisrochabr/movies-catolog-react-ts
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. Vá para a pasta da aplicação:
+   ```bash
+   cd movies-catolog-react-ts
+   ```
+3. Instale as dependências:
+   ```bash
+   npm install ou yarn
+   ```
+4. Antes de executar, adicione sua apikey da API.
+   ```bash
+   mv .env-example .env
+   REACT_APP_API_KEY=suaKey
+   ```
+5. Inicie a aplicação:
+   ```bash
+   npm run start ou yarn start
+   ```
 
-### `npm run eject`
+## 🚀 **Uso**
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Com o ambiente configurado e rodando acesse o link [http://localhost:3000](http://localhost:3000) no seu navegador. A aplicação oferece uma interface amigável e responsiva.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🤝 **Contribuição**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Contribuições são bem-vindas! Para contribuir:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. Fork o projeto.
+2. Crie uma branch com sua funcionalidade: \`git checkout -b minha-funcionalidade\`.
+3. Faça commit de suas mudanças: \`git commit -m 'Adicionando minha funcionalidade'\`.
+4. Faça push para a branch: \`git push origin minha-funcionalidade\`.
+5. Abra um Pull Request.
 
-## Learn More
+## 📄 **Licença**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Este projeto está licenciado sob a [MIT License](LICENSE).
