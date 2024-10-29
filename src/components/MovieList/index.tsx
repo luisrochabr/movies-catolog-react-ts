@@ -10,13 +10,13 @@ interface MoviesListProps {
 }
 
 const MoviesList = ({ searchTerm, page }: MoviesListProps) => {
-  const { data, error, isLoading, isFetching } = useSearchMoviesQuery({
+  const { data, error, isLoading } = useSearchMoviesQuery({
     searchTerm,
     page,
   });
   const movies = data?.Search || [];
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <Grid size={{ xs: 12, sm: 4, md: 2 }}>
         <Skeleton
@@ -27,6 +27,8 @@ const MoviesList = ({ searchTerm, page }: MoviesListProps) => {
         />
       </Grid>
     );
+  }
+  if (error) return <div>Error...</div>;
 
   return (
     <>

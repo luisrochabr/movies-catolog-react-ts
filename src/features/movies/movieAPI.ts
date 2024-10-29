@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { IMovie } from './types/movie';
 import { Config } from '../../core/common/config';
 
-export interface QueryPrarams {
+export interface SearchParams {
   searchTerm: string;
   page: number;
 }
@@ -18,11 +18,14 @@ export const movieApi = createApi({
     baseUrl: `${Config.apiUrl}`,
   }),
   endpoints: (builder) => ({
-    searchMovies: builder.query<ListResponse<IMovie>, QueryPrarams>({
+    searchMovies: builder.query<ListResponse<IMovie>, SearchParams>({
       query: ({ searchTerm, page }) =>
         `?apikey=${Config.apiKey}&s=${searchTerm}&page=${page}`,
+    }),
+    getMovieById: builder.query<IMovie, string | undefined>({
+      query: (id) => `?apikey=${Config.apiKey}&i=${id}`,
     }),
   }),
 });
 
-export const { useSearchMoviesQuery } = movieApi;
+export const { useSearchMoviesQuery, useGetMovieByIdQuery } = movieApi;
